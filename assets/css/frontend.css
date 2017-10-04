@@ -1,0 +1,69 @@
+.dp-wpm-popup {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: block;
+    z-index: 99998;
+    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    left: 0;
+}
+.dp-wpm-popup-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+}
+.dp-wpm-hidden-form {
+    margin: auto;
+    position: relative;
+    border: 6px solid #fff;
+    min-width: 30%;
+    max-width: 80%;
+    min-height: 40%;
+    max-height: 80%;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.dp-wpm-close-button {
+    position: absolute;
+    top: -19px;
+    right: -19px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    background-image: url('../img/sprite.png');
+    z-index: 99999;
+}
+#dp-wpm-popup-preview {
+    text-align: center;
+    padding-top: 15px;
+}
+#dp-wpm-popup-preview a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 26px;
+    height: 28px;
+    margin: 0;
+    padding: 0 10px 1px;
+    cursor: pointer;
+    border: 1px solid;
+    -webkit-appearance: none;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #0085ba;
+    border-color: #0073aa #006799 #006799;
+    -webkit-box-shadow: 0 1px 0 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+    text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+}
