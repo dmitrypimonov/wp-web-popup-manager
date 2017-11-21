@@ -759,8 +759,10 @@ class WPM_Application
                 } elseif (is_single() && isset($GLOBALS['post'])) {
                     foreach ($availableTaxonomies as $taxonomy) {
                         $postTerms = get_the_terms($GLOBALS['post'], $taxonomy);
-                        foreach ($postTerms as $term) {
-                            $currentCategoryArray[] = $term->term_id;
+                        if (is_array($postTerms)) {
+                            foreach ($postTerms as $term) {
+                                $currentCategoryArray[] = $term->term_id;
+                            }
                         }
                     }
                 }
@@ -774,8 +776,10 @@ class WPM_Application
 
                     foreach ($availableTaxonomies as $taxonomy) {
                         $postTerms = get_the_terms($post, $taxonomy);
-                        foreach ($postTerms as $term) {
-                            $popupTermsIDs[] = $term->term_id;
+                        if (is_array($postTerms)) {
+                            foreach ($postTerms as $term) {
+                                $popupTermsIDs[] = $term->term_id;
+                            }
                         }
                     }
 
