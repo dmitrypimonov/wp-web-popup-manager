@@ -192,6 +192,14 @@ jQuery(document).ready(function() {
 
                 if (popupObject) {
 
+                    // Ссылка открытия попапа
+                    var permalink = popupObject.permalink;
+                    if (typeof(popupObject['meta_fields']['dp-wpm-popup-fields-open-link']) !== typeof(undefined)) {
+                        if (String(popupObject['meta_fields']['dp-wpm-popup-fields-open-link']).trim().length) {
+                            permalink = String(popupObject['meta_fields']['dp-wpm-popup-fields-open-link']).trim();
+                        }
+                    }
+
                     // Для UTM
                     var siteName    = window.dpWpm.ttObj.getSiteName(),
                         pageName    = window.dpWpm.ttObj.getPageName(),
@@ -199,7 +207,7 @@ jQuery(document).ready(function() {
                         //href        = typeof(clickedElement) != 'undefined' ? window.dpWpm.ttObj.getHref(clickedElement): 'undefined',
                         totalKey    = siteName + '|' + pageName + '|' + utm + '|' + elementClass,
                         aff_content = 'aff_content=' + totalKey,
-                        full_url = encodeURI(popupObject.permalink + '&' + popupObject.utm + '&' + aff_content);
+                        full_url = encodeURI(permalink + (permalink.indexOf('?') != -1 ? '&' : '?') + popupObject.utm + '&' + aff_content);
 
                     // Основные объекты
                     var $body = $('body'),

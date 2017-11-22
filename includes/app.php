@@ -272,6 +272,13 @@ class WPM_Application
                     'required'     => 1
                 ),
                 array(
+                    'key'          => 'dp-wpm-popup-fields-open-link',
+                    'label'        => __('Ссылка, по которой откроется попап', DP_WPM_TEXT_DOMAIN),
+                    'name'         => 'dp-wpm-popup-fields-open-link',
+                    'type'         => 'text',
+                    'required'     => 1
+                ),
+                array(
                     'key'          => 'dp-wpm-popup-fields-popup-title',
                     'label'        => __('Заголовок попапа', DP_WPM_TEXT_DOMAIN),
                     'name'         => 'dp-wpm-popup-fields-popup-title',
