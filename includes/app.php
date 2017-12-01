@@ -363,14 +363,6 @@ class WPM_Application
                     'type'          => 'text',
                     'required'      => 1,
                     'default_value' => '5'
-                ),
-                array(
-                    'key'           => 'dp-wpm-popup-fields-shortcode-link',
-                    'label'         => __('Текст ссылки при вставке шорткода', DP_WPM_TEXT_DOMAIN),
-                    'name'          => 'dp-wpm-popup-fields-shortcode-link',
-                    'type'          => 'text',
-                    'required'      => 0,
-                    'default_value' => '5'
                 )
             ),
             'location' => array(
@@ -395,17 +387,19 @@ class WPM_Application
                 "title"  => __('Заголовок', DP_WPM_TEXT_DOMAIN),
                 "author" => __('Автор', DP_WPM_TEXT_DOMAIN),
                 "date"   => __('Дата', DP_WPM_TEXT_DOMAIN),
-                "shortcode"   => __('Шорткод', DP_WPM_TEXT_DOMAIN)
+                "code"   => __('Шорткод', DP_WPM_TEXT_DOMAIN)
             );
 
             return $_postsColumns;
         }, PHP_INT_MAX);
 
         // Инициализируем кастомную колонку
-        add_action('manage_dp-wpm-popup_posts_custom_column', function($_column, $_postID) {
+        add_action('manage_dp-wpm-popup_posts_custom_column', function($_column) {
+            global $post;
+
             switch ($_column) {
-                case 'shortcode':
-                    echo '[web-popup id="' . $_postID . '"]';
+                case 'code':
+                    echo '[web-popup id="' . $post->ID . '"]Текст ссылки[/web-popup]';
                     break;
             }
         }, PHP_INT_MAX);
@@ -531,8 +525,10 @@ class WPM_Application
         }, PHP_INT_MAX);
 
         // Инициализируем кастомную колонку
-        add_action('manage_dp-wpm-templates_posts_custom_column', function($_column, $_postID) {
-            $postCustomFields = get_post_custom($_postID);
+        add_action('manage_dp-wpm-templates_posts_custom_column', function($_column) {
+            global $post;
+
+            $postCustomFields = get_post_custom($post->ID);
             $postTemplateType = intval(array_shift($postCustomFields['dp-wpm-popup-templates-type']));
 
             switch ($_column) {
@@ -838,15 +834,17 @@ class WPM_Application
 
     /**
      * Шорткод попапа
+     * @param $_attributes
+     * @param $_content
      * @return string
      */
-    public function popupShortCode($_attributes) {
+    public function popupShortCode($_attributes, $_content) {
         $replacement = '';
 
         if (isset($_attributes['id'])) {
             if ($post = get_post(intval($_attributes['id']))) {
                 $customFields = get_post_custom($post->ID);
-                $replacement = '<a href="#" class="am_popup_' . trim($customFields['dp-wpm-popup-fields-class']) . '">' . $customFields['dp-wpm-popup-fields-shortcode-link'] . '</a>';
+                $replacement = '<a href="#" class="am_popup_' . trim(array_shift($customFields['dp-wpm-popup-fields-class'])) . '">' . (isset($_content) ? $_content : '') . '</a>';
             }
         }
 
