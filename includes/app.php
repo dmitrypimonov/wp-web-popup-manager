@@ -94,6 +94,7 @@ class WPM_Application
 
         // Добавляем шорткод версии ;)
         add_shortcode('dp-wpm-plugin-version', array($this, 'versionShortCode'));
+        add_shortcode('web-popup', array($this, 'popupShortCode'));
 
         // Функционал отличается в зависимости от текущего режима
         if ($this->currentMode === self::MODE_FRONTEND) {
@@ -362,6 +363,14 @@ class WPM_Application
                     'type'          => 'text',
                     'required'      => 1,
                     'default_value' => '5'
+                ),
+                array(
+                    'key'           => 'dp-wpm-popup-fields-shortcode-link',
+                    'label'         => __('Текст ссылки при вставке шорткода', DP_WPM_TEXT_DOMAIN),
+                    'name'          => 'dp-wpm-popup-fields-shortcode-link',
+                    'type'          => 'text',
+                    'required'      => 0,
+                    'default_value' => '5'
                 )
             ),
             'location' => array(
@@ -385,10 +394,20 @@ class WPM_Application
             $_postsColumns = array(
                 "title"  => __('Заголовок', DP_WPM_TEXT_DOMAIN),
                 "author" => __('Автор', DP_WPM_TEXT_DOMAIN),
-                "date"   => __('Дата', DP_WPM_TEXT_DOMAIN)
+                "date"   => __('Дата', DP_WPM_TEXT_DOMAIN),
+                "shortcode"   => __('Шорткод', DP_WPM_TEXT_DOMAIN)
             );
 
             return $_postsColumns;
+        }, PHP_INT_MAX);
+
+        // Инициализируем кастомную колонку
+        add_action('manage_dp-wpm-popup_posts_custom_column', function($_column, $_postID) {
+            switch ($_column) {
+                case 'shortcode':
+                    echo '[web-popup id="' . $_postID . '"]';
+                    break;
+            }
         }, PHP_INT_MAX);
 
         // Удаляем не нужные метабоксы у типа записи «Попапы»
@@ -815,6 +834,23 @@ class WPM_Application
         }
 
         return false;
+    }
+
+    /**
+     * Шорткод попапа
+     * @return string
+     */
+    public function popupShortCode($_attributes) {
+        $replacement = '';
+
+        if (isset($_attributes['id'])) {
+            if ($post = get_post(intval($_attributes['id']))) {
+                $customFields = get_post_custom($post->ID);
+                $replacement = '<a href="#" class="am_popup_' . trim($customFields['dp-wpm-popup-fields-class']) . '">' . $customFields['dp-wpm-popup-fields-shortcode-link'] . '</a>';
+            }
+        }
+
+        return $replacement;
     }
 
     /**
