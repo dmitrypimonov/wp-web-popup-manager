@@ -38,9 +38,10 @@ function parseGET(url) {
 jQuery(document).ready(function() {
     var $ = jQuery,
         $popupCustomFields = $('#acf_dp-wpm-popup-fields'),
-        $popupPreviewButton = $('#dp-wpm-popup-preview');
+        $popupPreviewButton = $('#dp-wpm-popup-preview'),
+        $popupPage = $('#acf-dp-wpm-popup-fields-max-show-repeat');
 
-    if ($popupCustomFields.length) {
+    if ($popupCustomFields.length && $popupPage.length) {
         $popupCustomFields.parent().children().not('.acf_postbox').hide();
 
         var $postBodyContent = $('#post-body-content');
