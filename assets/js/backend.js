@@ -47,6 +47,19 @@ jQuery(document).ready(function() {
         if ($postBodyContent.length) {
             $postBodyContent.find('#titlediv').children('.inside').hide();
         }
+
+        var $postTitle = $('input[name="post_title"]'),
+            $_GET = parseGET();
+
+        if ($postTitle.length) {
+            if (typeof($_GET['post']) !== typeof(undefined) && $_GET['action'] == 'edit') {
+                var shortcodeInfo = '<span style="display: inline-block; padding-top: 5px;">' +
+                                    '    <strong>Шорткод: </strong>[web-popup id="' + $_GET['post'] + '"]Текст ссылки[/web-popup]' +
+                                    '</span>';
+
+                $postTitle.parent().append(shortcodeInfo);
+            }
+        }
     }
     if ($popupPreviewButton.length) {
         $popupPreviewButton.find('a').on('click', function(event) {
@@ -56,16 +69,5 @@ jQuery(document).ready(function() {
         });
     }
 
-    var $postTitle = $('input[name="post_title"]'),
-        $_GET = parseGET();
 
-    if ($postTitle.length) {
-        if (typeof($_GET['post']) !== typeof(undefined) && $_GET['action'] == 'edit') {
-            var shortcodeInfo = '<span style="display: inline-block; padding-top: 5px;">' +
-                                '    <strong>Шорткод: </strong>[web-popup id="' + $_GET['post'] + '"]Текст ссылки[/web-popup]' +
-                                '</span>';
-
-            $postTitle.parent().append(shortcodeInfo);
-        }
-    }
 });
